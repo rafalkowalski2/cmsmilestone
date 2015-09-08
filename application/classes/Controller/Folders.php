@@ -100,7 +100,8 @@ class Controller_Folders extends Controller_AdminTemplate
 				$temp[$value->id]['parent_id'] 		= $value->parent_id;
 				$temp[$value->id]['name'] 			= $value->name;
 				$temp[$value->id]['display_name'] 	= $value->display_name;	
-				$temp[$value->id]['dir']			= $value->dir;	
+				$temp[$value->id]['dir']			= $value->dir;
+				$temp[$value->id]['date_create']	= $value->date_create;	
 		}
 		foreach($temp as $item)
 		{
@@ -133,6 +134,16 @@ class Controller_Folders extends Controller_AdminTemplate
 		$tmp['levels'] = $levels;
 		print_r($tmp['tree']);
 		return $tmp;
+	}
+	public function action_list()
+	{
+		if($this->_auth->logged_in('admin'))
+		{
+			$list = ORM::factory('Folders')->find_all()->as_array();
+			$list = $this->prepare_folder_list($list);
+			$this->template->content = View::factory( 'template/admin/folders/list' );
+			$this->template->content->bind('list', $list['tree']);
+		}
 	}
 	public function levels_array($arr)
 	{

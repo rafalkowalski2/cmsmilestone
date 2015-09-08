@@ -44,6 +44,7 @@
               <ul class="dropdown-menu">
                 <li class="dropdown-header"><?php echo __('FOLDERS'); ?></li>
                 <li><a href="<?php echo URL::site(Request::current()->param('language').'/admin/folders/add'); ?>"><?php echo __('ADD_FOLDER');?></a></li>
+                <li><a href="<?php echo URL::site(Request::current()->param('language').'/admin/folders/list'); ?>"><?php echo __('FOLDERS');?></a></li>
                 <li role="separator" class="divider"></li>
                 <li class="dropdown-header"><?php echo __('FILES'); ?></li>
                 <li><a href="<?php echo URL::site(Request::current()->param('language').'/admin/files/add'); ?>"><?php echo __('ADD_FILES');?></a></li>
