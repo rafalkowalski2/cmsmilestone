@@ -83,7 +83,6 @@
 			?>
 		</div>
         				<?php
-							echo ini_get('post_max_size');
 							if(Request::current()->param('id'))
 							{
 								if(count($files_list) > 0 )
