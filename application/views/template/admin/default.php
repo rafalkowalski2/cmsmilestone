@@ -40,7 +40,7 @@
                 <li><a href="<?php echo URL::site(Request::current()->param('language').'/admin/user/list'); ?>"><?php echo __('LIST_PAGE');?></a></li>
               </ul></li>
              <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo __('FILES');?><span class="caret"></span></a>
+              <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo __('FILEMANAGER');?><span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li class="dropdown-header"><?php echo __('FOLDERS'); ?></li>
                 <li><a href="<?php echo URL::site(Request::current()->param('language').'/admin/folders/add'); ?>"><?php echo __('ADD_FOLDER');?></a></li>

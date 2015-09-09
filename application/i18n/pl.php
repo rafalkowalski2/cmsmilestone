@@ -1,0 +1,22 @@
+<?php
+return array(
+	'PAGES' => 'ciekawe czy zapisze',
+	'ADD_PAGE' => '',
+	'LIST_PAGE' => '',
+	'FILEMANAGER' => '',
+	'FOLDERS' => '',
+	'ADD_FOLDER' => '',
+	'FILES' => '',
+	'ADD_FILES' => '',
+	'FILE_MANAGER' => '',
+	'USERS' => '',
+	'ADD_USER' => '',
+	'USERS_LIST' => '',
+	'SETTINGS' => '',
+	'LANGUAGES' => '',
+	'ADD_TRANSLATION' => '',
+	'EDIT_TRANSLATION' => '',
+	'LOGOUT' => '',
+	'CHANGE_PASSWORD' => '',
+	'MY_ACCOUNT' => '',
+);
