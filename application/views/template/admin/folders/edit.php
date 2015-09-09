@@ -62,7 +62,7 @@
     					<option value="0">--</option>
     					<?php
     						function walkTree($nodes, $level = 0, $current_parent_id = 0) {
-    							foreach($nodes as $key => $value) {
+    							foreach($nodes as $key => $value) {		
     								if($value['start'] == 1)
 									{
 										if($value['id'] == $current_parent_id)

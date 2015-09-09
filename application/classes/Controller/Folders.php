@@ -63,7 +63,7 @@ class Controller_Folders extends Controller_AdminTemplate
 		$folder = ORM::factory('Folders', $id);
 		return $folder->dir;
 	}
-	public function delete_folder($name, $dir)
+	public function delete_folder($name = '', $dir)
 	{
 		if(is_dir($dir.$name))
 		{
@@ -159,6 +159,64 @@ class Controller_Folders extends Controller_AdminTemplate
 				
 				$this->template->content = View::factory( 'template/admin/folders/edit' );
 				$this->template->content->bind('folder', $folder)->bind('list', $list['tree']);
+			}
+		}
+	}
+	public function action_delete()
+	{
+		if($this->_auth->logged_in('admin'))
+		{
+			if($this->request->param('id'))
+			{
+				$this->template->content = View::factory( 'template/admin/others/confirm_delete');
+				if(isset($_POST['process_delete']))
+				{
+					$folder      = ORM::factory('Folders', $this->request->param('id'));
+					$count_files = ORM::factory('Files')->where('folder_id', '=', $this->request->param('id'))->count_all();
+					if($count_files > 0)
+					{
+						$files = ORM::factory('Files')->where('folder_id', '=', $this->request->param('id'))->find_all();
+						try
+						{
+							foreach($files as $val)
+							{
+								$file = ORM::factory('Files', $val->id);
+								unlink($folder->dir.'/'.$file->name);
+								$file->delete();
+							}
+							if($this->delete_folder('', $folder->dir))
+							{
+								$folder->delete();
+								$this->_set_message('success', 'FILE_UPLOAD_SUCCESS');
+								HTTP::redirect(URL::site($this->request->post('return_url'), TRUE), 302);
+							}
+						}
+						catch(ORM_Validation_Exception $e)
+						{
+							$this->_set_message('error', $e->errors('avatar'));
+						}
+					}
+					else 
+					{
+						try
+						{
+							if($this->delete_folder('', $folder->dir))
+							{
+								$folder->delete();
+								$this->_set_message('success', 'FILE_UPLOAD_SUCCESS');
+								HTTP::redirect(URL::site($this->request->post('return_url'), TRUE), 302);
+							}
+						}
+						catch(ORM_Validation_Exception $e)
+						{
+							$this->_set_message('error', $e->errors('avatar'));
+						}
+					}
+				}
+				if(isset($_POST['reject_delete']))
+				{
+					HTTP::redirect(URL::site($this->request->post('return_url'), TRUE), 302);
+				}
 			}
 		}
 	}

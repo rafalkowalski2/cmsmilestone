@@ -56,6 +56,13 @@
                 <li><a href="<?php echo URL::site(Request::current()->param('language').'/admin/user/add'); ?>"><?php echo __('ADD_USER');?></a></li>
                 <li><a href="<?php echo URL::site(Request::current()->param('language').'/admin/user/list'); ?>"><?php echo __('USERS_LIST');?></a></li>
               </ul></li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo __('SETTINGS');?><span class="caret"></span></a>
+              <ul class="dropdown-menu">
+              	<li class="dropdown-header"><?php echo __('LANGUAGES'); ?></li>
+                <li><a href="<?php echo URL::site(Request::current()->param('language').'/admin/translations/add'); ?>"><?php echo __('ADD_TRANSLATION');?></a></li>
+                <li><a href="<?php echo URL::site(Request::current()->param('language').'/admin/translations/list'); ?>"><?php echo __('EDIT_TRANSLATION');?></a></li>
+              </ul></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
