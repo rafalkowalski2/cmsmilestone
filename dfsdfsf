@@ -1,0 +1,291 @@
+[33mcommit 86319909e557c69b861775a7f6f9143df1f238c3[m
+Author: makss966 <rafalkowalski2@outlook.com>
+Date:   Wed Sep 9 22:01:10 2015 +0200
+
+    add remove folder with file
+
+[1mdiff --git a/application/classes/Controller/Folders.php b/application/classes/Controller/Folders.php[m
+[1mindex 9b546a4..cdc00ed 100644[m
+[1m--- a/application/classes/Controller/Folders.php[m
+[1m+++ b/application/classes/Controller/Folders.php[m
+[36m@@ -63,7 +63,7 @@[m [mclass Controller_Folders extends Controller_AdminTemplate[m
+ 		$folder = ORM::factory('Folders', $id);[m
+ 		return $folder->dir;[m
+ 	}[m
+[31m-	public function delete_folder($name, $dir)[m
+[32m+[m	[32mpublic function delete_folder($name = '', $dir)[m
+ 	{[m
+ 		if(is_dir($dir.$name))[m
+ 		{[m
+[36m@@ -162,6 +162,64 @@[m [mclass Controller_Folders extends Controller_AdminTemplate[m
+ 			}[m
+ 		}[m
+ 	}[m
+[32m+[m	[32mpublic function action_delete()[m
+[32m+[m	[32m{[m
+[32m+[m		[32mif($this->_auth->logged_in('admin'))[m
+[32m+[m		[32m{[m
+[32m+[m			[32mif($this->request->param('id'))[m
+[32m+[m			[32m{[m
+[32m+[m				[32m$this->template->content = View::factory( 'template/admin/others/confirm_delete');[m
+[32m+[m				[32mif(isset($_POST['process_delete']))[m
+[32m+[m				[32m{[m
+[32m+[m					[32m$folder      = ORM::factory('Folders', $this->request->param('id'));[m
+[32m+[m					[32m$count_files = ORM::factory('Files')->where('folder_id', '=', $this->request->param('id'))->count_all();[m
+[32m+[m					[32mif($count_files > 0)[m
+[32m+[m					[32m{[m
+[32m+[m						[32m$files = ORM::factory('Files')->where('folder_id', '=', $this->request->param('id'))->find_all();[m
+[32m+[m						[32mtry[m
+[32m+[m						[32m{[m
+[32m+[m							[32mforeach($files as $val)[m
+[32m+[m							[32m{[m
+[32m+[m								[32m$file = ORM::factory('Files', $val->id);[m
+[32m+[m								[32munlink($folder->dir.'/'.$file->name);[m
+[32m+[m								[32m$file->delete();[m
+[32m+[m							[32m}[m
+[32m+[m							[32mif($this->delete_folder('', $folder->dir))[m
+[32m+[m							[32m{[m
+[32m+[m								[32m$folder->delete();[m
+[32m+[m								[32m$this->_set_message('success', 'FILE_UPLOAD_SUCCESS');[m
+[32m+[m								[32mHTTP::redirect(URL::site($this->request->post('return_url'), TRUE), 302);[m
+[32m+[m							[32m}[m
+[32m+[m						[32m}[m
+[32m+[m						[32mcatch(ORM_Validation_Exception $e)[m
+[32m+[m						[32m{[m
+[32m+[m							[32m$this->_set_message('error', $e->errors('avatar'));[m
+[32m+[m						[32m}[m
+[32m+[m					[32m}[m
+[32m+[m					[32melse[m[41m [m
+[32m+[m					[32m{[m
+[32m+[m						[32mtry[m
+[32m+[m						[32m{[m
+[32m+[m							[32mif($this->delete_folder('', $folder->dir))[m
+[32m+[m							[32m{[m
+[32m+[m								[32m$folder->delete();[m
+[32m+[m								[32m$this->_set_message('success', 'FILE_UPLOAD_SUCCESS');[m
+[32m+[m								[32mHTTP::redirect(URL::site($this->request->post('return_url'), TRUE), 302);[m
+[32m+[m							[32m}[m
+[32m+[m						[32m}[m
+[32m+[m						[32mcatch(ORM_Validation_Exception $e)[m
+[32m+[m						[32m{[m
+[32m+[m							[32m$this->_set_message('error', $e->errors('avatar'));[m
+[32m+[m						[32m}[m
+[32m+[m					[32m}[m
+[32m+[m				[32m}[m
+[32m+[m				[32mif(isset($_POST['reject_delete']))[m
+[32m+[m				[32m{[m
+[32m+[m					[32mHTTP::redirect(URL::site($this->request->post('return_url'), TRUE), 302);[m
+[32m+[m				[32m}[m
+[32m+[m			[32m}[m
+[32m+[m		[32m}[m
+[32m+[m	[32m}[m
+ 	public function levels_array($arr)[m
+ 	{[m
+ 		/*$levels = array();[m
+[1mdiff --git a/application/logs/2015/09/09.php b/application/logs/2015/09/09.php[m
+[1mindex adbd276..47c9e56 100644[m
+[1m--- a/application/logs/2015/09/09.php[m
+[1m+++ b/application/logs/2015/09/09.php[m
+[36m@@ -67,4 +67,91 @@[m
+ #1 {main} in file:line[m
+ 2015-09-09 12:21:13 --- EMERGENCY: ErrorException [ 4 ]: syntax error, unexpected ',' ~ APPPATH/views/template/admin/folders/edit.php [ 95 ] in file:line[m
+ 2015-09-09 12:21:13 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()[m
+[31m-#1 {main} in file:line[m
+\ No newline at end of file[m
+[32m+[m[32m#1 {main} in file:line[m
+[32m+[m[32m2015-09-09 20:18:10 --- EMERGENCY: View_Exception [ 0 ]: The requested view template/admin/others/confirm_delete could not be found ~ SYSPATH/classes/Kohana/View.php [ 265 ] in /var/www/system/classes/Kohana/View.php:145[m
+[32m+[m[32m2015-09-09 20:18:10 --- DEBUG: #0 /var/www/system/classes/Kohana/View.php(145): Kohana_View->set_filename('template/admin/...')[m
+[32m+[m[32m#1 /var/www/system/classes/Kohana/View.php(30): Kohana_View->__construct('template/admin/...', NULL)[m
+[32m+[m[32m#2 /var/www/application/classes/Controller/Folders.php(171): Kohana_View::factory('template/admin/...')[m
+[32m+[m[32m#3 /var/www/system/classes/Kohana/Controller.php(84): Controller_Folders->action_delete()[m
+[32m+[m[32m#4 [internal function]: Kohana_Controller->execute()[m
+[32m+[m[32m#5 /var/www/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Folders))[m
+[32m+[m[32m#6 /var/www/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))[m
+[32m+[m[32m#7 /var/www/system/classes/Kohana/Request.php(997): Kohana_Request_Client->execute(Object(Request))[m
+[32m+[m[32m#8 /var/www/index.php(118): Kohana_Request->execute()[m
+[32m+[m[32m#9 {main} in /var/www/system/classes/Kohana/View.php:145[m
+[32m+[m[32m2015-09-09 20:21:28 --- EMERGENCY: ErrorException [ 2 ]: Invalid argument supplied for foreach() ~ APPPATH/views/template/admin/others/confirm_delete.php [ 65 ] in /var/www/application/views/template/admin/others/confirm_delete.php:65[m
+[32m+[m[32m2015-09-09 20:21:28 --- DEBUG: #0 /var/www/application/views/template/admin/others/confirm_delete.php(65): Kohana_Core::error_handler(2, 'Invalid argumen...', '/var/www/applic...', 65, Array)[m
+[32m+[m[32m#1 /var/www/application/views/template/admin/others/confirm_delete.php(79): walkTree(NULL)[m
+[32m+[m[32m#2 /var/www/system/classes/Kohana/View.php(62): include('/var/www/applic...')[m
+[32m+[m[32m#3 /var/www/system/classes/Kohana/View.php(359): Kohana_View::capture('/var/www/applic...', Array)[m
+[32m+[m[32m#4 /var/www/system/classes/Kohana/View.php(236): Kohana_View->render()[m
+[32m+[m[32m#5 /var/www/application/views/template/admin/default.php(86): Kohana_View->__toString()[m
+[32m+[m[32m#6 /var/www/system/classes/Kohana/View.php(62): include('/var/www/applic...')[m
+[32m+[m[32m#7 /var/www/system/classes/Kohana/View.php(359): Kohana_View::capture('/var/www/applic...', Array)[m
+[32m+[m[32m#8 /var/www/system/classes/Kohana/Controller/Template.php(44): Kohana_View->render()[m
+[32m+[m[32m#9 /var/www/application/classes/Controller/AdminTemplate.php(28): Kohana_Controller_Template->after()[m
+[32m+[m[32m#10 /var/www/system/classes/Kohana/Controller.php(87): Controller_AdminTemplate->after()[m
+[32m+[m[32m#11 [internal function]: Kohana_Controller->execute()[m
+[32m+[m[32m#12 /var/www/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Folders))[m
+[32m+[m[32m#13 /var/www/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))[m
+[32m+[m[32m#14 /var/www/system/classes/Kohana/Request.php(997): Kohana_Request_Client->execute(Object(Request))[m
+[32m+[m[32m#15 /var/www/index.php(118): Kohana_Request->execute()[m
+[32m+[m[32m#16 {main} in /var/www/application/views/template/admin/others/confirm_delete.php:65[m
+[32m+[m[32m2015-09-09 20:53:52 --- EMERGENCY: ErrorException [ 4 ]: syntax error, unexpected '}', expecting ',' or ';' ~ APPPATH/classes/Controller/Folders.php [ 177 ] in file:line[m
+[32m+[m[32m2015-09-09 20:53:52 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()[m
+[32m+[m[32m#1 {main} in file:line[m
+[32m+[m[32m2015-09-09 21:07:26 --- EMERGENCY: ErrorException [ 1 ]: Call to a member function count_all() on null ~ APPPATH/classes/Controller/Folders.php [ 177 ] in file:line[m
+[32m+[m[32m2015-09-09 21:07:26 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()[m
+[32m+[m[32m#1 {main} in file:line[m
+[32m+[m[32m2015-09-09 21:25:38 --- EMERGENCY: ErrorException [ 2 ]: Invalid argument supplied for foreach() ~ APPPATH/classes/Controller/Folders.php [ 181 ] in /var/www/application/classes/Controller/Folders.php:181[m
+[32m+[m[32m2015-09-09 21:25:38 --- DEBUG: #0 /var/www/application/classes/Controller/Folders.php(181): Kohana_Core::error_handler(2, 'Invalid argumen...', '/var/www/applic...', 181, Array)[m
+[32m+[m[32m#1 /var/www/system/classes/Kohana/Controller.php(84): Controller_Folders->action_delete()[m
+[32m+[m[32m#2 [internal function]: Kohana_Controller->execute()[m
+[32m+[m[32m#3 /var/www/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Folders))[m
+[32m+[m[32m#4 /var/www/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))[m
+[32m+[m[32m#5 /var/www/system/classes/Kohana/Request.php(997): Kohana_Request_Client->execute(Object(Request))[m
+[32m+[m[32m#6 /var/www/index.php(118): Kohana_Request->execute()[m
+[32m+[m[32m#7 {main} in /var/www/application/classes/Controller/Folders.php:181[m
+[32m+[m[32m2015-09-09 21:25:42 --- EMERGENCY: ErrorException [ 2 ]: Invalid argument supplied for foreach() ~ APPPATH/classes/Controller/Folders.php [ 181 ] in /var/www/application/classes/Controller/Folders.php:181[m
+[32m+[m[32m2015-09-09 21:25:42 --- DEBUG: #0 /var/www/application/classes/Controller/Folders.php(181): Kohana_Core::error_handler(2, 'Invalid argumen...', '/var/www/applic...', 181, Array)[m
+[32m+[m[32m#1 /var/www/system/classes/Kohana/Controller.php(84): Controller_Folders->action_delete()[m
+[32m+[m[32m#2 [internal function]: Kohana_Controller->execute()[m
+[32m+[m[32m#3 /var/www/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Folders))[m
+[32m+[m[32m#4 /var/www/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))[m
+[32m+[m[32m#5 /var/www/system/classes/Kohana/Request.php(997): Kohana_Request_Client->execute(Object(Request))[m
+[32m+[m[32m#6 /var/www/index.php(118): Kohana_Request->execute()[m
+[32m+[m[32m#7 {main} in /var/www/application/classes/Controller/Folders.php:181[m
+[32m+[m[32m2015-09-09 21:28:47 --- EMERGENCY: Kohana_Exception [ 0 ]: Cannot delete files model because it is not loaded. ~ MODPATH/orm/classes/Kohana/ORM.php [ 1434 ] in /var/www/application/classes/Controller/Folders.php:180[m
+[32m+[m[32m2015-09-09 21:28:47 --- DEBUG: #0 /var/www/application/classes/Controller/Folders.php(180): Kohana_ORM->delete()[m
+[32m+[m[32m#1 /var/www/system/classes/Kohana/Controller.php(84): Controller_Folders->action_delete()[m
+[32m+[m[32m#2 [internal function]: Kohana_Controller->execute()[m
+[32m+[m[32m#3 /var/www/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Folders))[m
+[32m+[m[32m#4 /var/www/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))[m
+[32m+[m[32m#5 /var/www/system/classes/Kohana/Request.php(997): Kohana_Request_Client->execute(Object(Request))[m
+[32m+[m[32m#6 /var/www/index.php(118): Kohana_Request->execute()[m
+[32m+[m[32m#7 {main} in /var/www/application/classes/Controller/Folders.php:180[m
+[32m+[m[32m2015-09-09 21:29:09 --- EMERGENCY: ErrorException [ 1 ]: Call to undefined method Database_Result_Cached::delete() ~ APPPATH/classes/Controller/Folders.php [ 180 ] in file:line[m
+[32m+[m[32m2015-09-09 21:29:09 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()[m
+[32m+[m[32m#1 {main} in file:line[m
+[32m+[m[32m2015-09-09 21:33:46 --- EMERGENCY: ErrorException [ 2 ]: rmdir(public/upload/other/archiwum): Directory not empty ~ APPPATH/classes/Controller/Folders.php [ 70 ] in file:line[m
+[32m+[m[32m2015-09-09 21:33:46 --- DEBUG: #0 [internal function]: Kohana_Core::error_handler(2, 'rmdir(public/up...', '/var/www/applic...', 70, Array)[m
+[32m+[m[32m#1 /var/www/application/classes/Controller/Folders.php(70): rmdir('public/upload/o...')[m
+[32m+[m[32m#2 /var/www/application/classes/Controller/Folders.php(178): Controller_Folders->delete_folder('', 'public/upload/o...')[m
+[32m+[m[32m#3 /var/www/system/classes/Kohana/Controller.php(84): Controller_Folders->action_delete()[m
+[32m+[m[32m#4 [internal function]: Kohana_Controller->execute()[m
+[32m+[m[32m#5 /var/www/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Folders))[m
+[32m+[m[32m#6 /var/www/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))[m
+[32m+[m[32m#7 /var/www/system/classes/Kohana/Request.php(997): Kohana_Request_Client->execute(Object(Request))[m
+[32m+[m[32m#8 /var/www/index.php(118): Kohana_Request->execute()[m
+[32m+[m[32m#9 {main} in file:line[m
+[32m+[m[32m2015-09-09 21:43:59 --- EMERGENCY: ErrorException [ 2 ]: rmdir(public/upload/other/archiwum): Directory not empty ~ APPPATH/classes/Controller/Folders.php [ 70 ] in file:line[m
+[32m+[m[32m2015-09-09 21:43:59 --- DEBUG: #0 [internal function]: Kohana_Core::error_handler(2, 'rmdir(public/up...', '/var/www/applic...', 70, Array)[m
+[32m+[m[32m#1 /var/www/application/classes/Controller/Folders.php(70): rmdir('public/upload/o...')[m
+[32m+[m[32m#2 /var/www/application/classes/Controller/Folders.php(188): Controller_Folders->delete_folder('', 'public/upload/o...')[m
+[32m+[m[32m#3 /var/www/system/classes/Kohana/Controller.php(84): Controller_Folders->action_delete()[m
+[32m+[m[32m#4 [internal function]: Kohana_Controller->execute()[m
+[32m+[m[32m#5 /var/www/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Folders))[m
+[32m+[m[32m#6 /var/www/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))[m
+[32m+[m[32m#7 /var/www/system/classes/Kohana/Request.php(997): Kohana_Request_Client->execute(Object(Request))[m
+[32m+[m[32m#8 /var/www/index.php(118): Kohana_Request->execute()[m
+[32m+[m[32m#9 {main} in file:line[m
+\ No newline at end of file[m
+[1mdiff --git a/application/views/template/admin/default.php b/application/views/template/admin/default.php[m
+[1mindex e712abd..150d4db 100755[m
+[1m--- a/application/views/template/admin/default.php[m
+[1m+++ b/application/views/template/admin/default.php[m
+[36m@@ -56,6 +56,13 @@[m
+                 <li><a href="<?php echo URL::site(Request::current()->param('language').'/admin/user/add'); ?>"><?php echo __('ADD_USER');?></a></li>[m
+                 <li><a href="<?php echo URL::site(Request::current()->param('language').'/admin/user/list'); ?>"><?php echo __('USERS_LIST');?></a></li>[m
+               </ul></li>[m
+[32m+[m[32m            <li class="dropdown">[m
+[32m+[m[32m              <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo __('SETTINGS');?><span class="caret"></span></a>[m
+[32m+[m[32m              <ul class="dropdown-menu">[m
+[32m+[m[41m              [m	[32m<li class="dropdown-header"><?php echo __('LANGUAGES'); ?></li>[m
+[32m+[m[32m                <li><a href="<?php echo URL::site(Request::current()->param('language').'/admin/translations/add'); ?>"><?php echo __('ADD_TRANSLATION');?></a></li>[m
+[32m+[m[32m                <li><a href="<?php echo URL::site(Request::current()->param('language').'/admin/translations/list'); ?>"><?php echo __('EDIT_TRANSLATION');?></a></li>[m
+[32m+[m[32m              </ul></li>[m
+           </ul>[m
+           <ul class="nav navbar-nav navbar-right">[m
+             <li class="dropdown">[m
+[1mdiff --git a/application/views/template/admin/folders/edit.php b/application/views/template/admin/folders/edit.php[m
+[1mindex 8dcd12c..2d463fa 100644[m
+[1m--- a/application/views/template/admin/folders/edit.php[m
+[1m+++ b/application/views/template/admin/folders/edit.php[m
+[36m@@ -62,7 +62,7 @@[m
+     					<option value="0">--</option>[m
+     					<?php[m
+     						function walkTree($nodes, $level = 0, $current_parent_id = 0) {[m
+[31m-    							foreach($nodes as $key => $value) {[m
+[32m+[m[41m    [m							[32mforeach($nodes as $key => $value) {[m[41m		[m
+     								if($value['start'] == 1)[m
+ 									{[m
+ 										if($value['id'] == $current_parent_id)[m
+[1mdiff --git a/application/views/template/admin/others/confirm_delete.php b/application/views/template/admin/others/confirm_delete.php[m
+[1mnew file mode 100644[m
+[1mindex 0000000..8ee6f50[m
+[1m--- /dev/null[m
+[1m+++ b/application/views/template/admin/others/confirm_delete.php[m
+[36m@@ -0,0 +1,54 @@[m
+[32m+[m[32m<div class="container-fluid white_container marign-borders">[m
+[32m+[m	[32m<div class="page-header">[m
+[32m+[m		[32m<h1><?php echo __('CONFIRM_DELETE');?></h1>[m
+[32m+[m	[32m</div>[m
+[32m+[m[41m  [m	[32m<div class="row">[m
+[32m+[m[41m  [m		[32m<ol class="breadcrumb">[m
+[32m+[m[41m  [m			[32m<li><a href="#"><?php echo Auth::instance()->get_user()->name.' '. Auth::instance()->get_user()->surname; ?></a></li>[m
+[32m+[m[41m  [m			[32m<li class="active"><?php echo __('CONFIRM_DELETE');?></li>[m
+[32m+[m		[32m</ol>[m
+[32m+[m		[32m<div class="col-sm-12">[m
+[32m+[m			[32m<?php[m
+[32m+[m[41m    [m		[32mif(Session::instance()->get('display') == TRUE)[m
+[32m+[m			[32m{[m
+[32m+[m				[32mecho '<div class="alert alert-'.Session::instance()->get('status').'" role="alert">';[m
+[32m+[m				[32mif(is_array(Session::instance()->get('message')))[m[41m [m
+[32m+[m				[32m{[m
+[32m+[m					[32mecho '<ul>';[m
+[32m+[m					[32mforeach(Session::instance()->get('message') as $key => $value)[m
+[32m+[m					[32m{[m
+[32m+[m						[32mif(is_array($value))[m
+[32m+[m						[32m{[m
+[32m+[m							[32mforeach($value as $extra_value)[m
+[32m+[m							[32m{[m
+[32m+[m								[32mecho '<li>'.$extra_value.'</li>';[m
+[32m+[m							[32m}[m
+[32m+[m						[32m}[m
+[32m+[m						[32melse[m[41m [m
+[32m+[m						[32m{[m
+[32m+[m							[32mecho '<li>'.$value.'</li>';[m[41m	[m
+[32m+[m						[32m}[m
+[32m+[m					[32m}[m
+[32m+[m					[32mecho '<ul>';[m
+[32m+[m				[32m}[m
+[32m+[m				[32melse[m[41m [m
+[32m+[m				[32m{[m
+[32m+[m					[32mecho Session::instance()->get('message');[m
+[32m+[m				[32m}[m
+[32m+[m				[32mecho '</div>';[m
+[32m+[m				[32mSession::instance()->set('display', FALSE);[m
+[32m+[m			[32m}[m
+[32m+[m			[32m?>[m
+[32m+[m		[32m</div>[m
+[32m+[m		[32m<div class="col-sm-offset-4 col-sm-4">[m
+[32m+[m			[32m<p><?php echo __('CONFIRM_DELETE_MESSAGE'); ?></p>[m
+[32m+[m			[32m<form role="form" action="<?php echo Request::current()->uri();?>" method="post">[m
+[32m+[m				[32m<div class="form-gruop">[m
+[32m+[m					[32m<input type="hidden" name="return_url" value="<?php echo Request::initial()->referrer();?>">[m
+[32m+[m					[32m<input type="submit" name="process_delete" class="btn btn-default" value="<?php echo __('YES');?>">[m
+[32m+[m					[32m<input type="submit" name="reject_delete" class="btn btn-default" value="<?php echo __('NO');?>">[m
+[32m+[m				[32m</div>[m
+[32m+[m			[32m</form>[m
+[32m+[m		[32m</div>[m
+[32m+[m	[32m</div>[m
+[32m+[m[32m</div>[m
+\ No newline at end of file[m
+[1mdiff --git a/public/upload/other/archiwum/20150825144924.jpg b/public/upload/other/archiwum/20150825144924.jpg[m
+[1mdeleted file mode 100644[m
+[1mindex 137ba20..0000000[m
+Binary files a/public/upload/other/archiwum/20150825144924.jpg and /dev/null differ
+[1mdiff --git a/public/upload/other/archiwum/jquery-cookie-master.7z b/public/upload/other/archiwum/jquery-cookie-master.7z[m
+[1mdeleted file mode 100644[m
+[1mindex 35509e7..0000000[m
+Binary files a/public/upload/other/archiwum/jquery-cookie-master.7z and /dev/null differ
+[1mdiff --git a/public/upload/other/archiwum/jquery-cookie-master.rar b/public/upload/other/archiwum/jquery-cookie-master.rar[m
+[1mdeleted file mode 100644[m
+[1mindex 35509e7..0000000[m
+Binary files a/public/upload/other/archiwum/jquery-cookie-master.rar and /dev/null differ
+[1mdiff --git a/public/upload/other/archiwum/moment-master.zip b/public/upload/other/archiwum/moment-master.zip[m
+[1mdeleted file mode 100644[m
+[1mindex 19e6e67..0000000[m
+Binary files a/public/upload/other/archiwum/moment-master.zip and /dev/null differ
