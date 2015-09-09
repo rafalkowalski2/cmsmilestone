@@ -16,54 +16,56 @@
 			{
 				echo '<thead>
             			<tr>
-                			<th>Name</th>
-                			<th>First Name</th>
-                			<th>Last Name</th>
-                			<th>Role</th>
-                			<th>Active</th>
-                			<th>First_logon</th>
-                			<th>Active off</th>
-                			<th>Active to</th>
-                			<th>Function</th>
+                			<th>#</th>
+                			<th>'.__('NAME').'</th>
+                			<th>'.__('DIRECTOR').'</th>
+                			<th>'.__('DATE_CREATE').'</th>
+                			<th>'.__('FUNCTION').'</th>
               			</tr>
         				</thead>
         				<tbody>' ;
-				//$i = 1;
-				function show($arr)
-					{
-						foreach($arr as $key => $value)
+				function walkTree($nodes, $level = 0) 
+				{
+					static $i = 1;
+    				foreach($nodes as $key => $value) 
+    				{
+    					if($value['start'] == 1)
 						{
-							$string = '<tr class="treegrid-'.$value['id'];
-							if(key_exists('children', $value))
-							{
-								if(key_exists('parent_id', $value) AND $value['parent_id'] != 0)
-								{
-									$string .= ' treegrid-parent-'.$value['parent_id'].'">';
-									$string .= '<td><a href="'.URL::site(Request::current()->param('language').'/admin/files/manager/'.$value['id']).'">'.$value['display_name'].'</a></td></tr>'."\n";
-								}
-								else 
-								{
-									$string .= '"><td><a href="'.URL::site(Request::current()->param('language').'/admin/files/manager/'.$value['id']).'">'.$value['display_name'].'</a></td></tr>'."\n";
-								}
-								echo $string;
-								show((array)$value['children'], $str);
-							}
-							else 
-							{
-								if(key_exists('parent_id', $value) AND $value['parent_id'] != 0)
-								{
-									$string .= ' treegrid-parent-'.$value['parent_id'].'">';
-									$string .= '<td><a href="'.URL::site(Request::current()->param('language').'/admin/files/manager/'.$value['id']).'">'.$value['display_name'].'</a></td></tr>'."\n";
-								}
-								else
-								{
-									$string .= '"><td><a href="'.URL::site(Request::current()->param('language').'/admin/files/manager/'.$value['id']).'">'.$value['display_name'].'</a></td></tr>'."\n";
-								}
-								echo $string;
-							}										
+							echo '<tr>
+									<td>'.$i.'</td>
+									<td>'.$value['display_name'].'</td>
+									<td>'.$value['dir'].'</td>
+									<td>'.$value['date_create'].'</td>
+									<td>
+										<a href="'.URL::site(Request::current()->param('language').'/admin/folders/edit/'.$value['id']).'">Edit</a> 
+										| 
+										<a href="'.URL::site(Request::current()->param('language').'/admin/folders/delete/'.$value['id']).'">Delete</a>
+									</td>
+								  </tr>'."\n";
 						}
-					}
-					show($list);
+						else 
+						{
+    						echo '<tr>
+    								<td>'.$i.'</td>
+    								<td>'.str_repeat('---', $level).$value['display_name'].'</td>
+    								<td>'.$value['dir'].'</td>
+    								<td>'.$value['date_create'].'</td>
+    								<td>
+										<a href="'.URL::site(Request::current()->param('language').'/admin/folders/edit/'.$value['id']).'">Edit</a> 
+										| 
+										<a href="'.URL::site(Request::current()->param('language').'/admin/folders/delete/'.$value['id']).'">Delete</a>
+									</td>
+    							  </tr>'."\n";
+						}
+						$i++;
+        				if($value['children']) 
+        				{
+            				walkTree($value['children'], $level + 1); 
+        				}
+						
+    				}
+				}
+				walkTree($list);
 					
 				echo '</tbody>';
 			}

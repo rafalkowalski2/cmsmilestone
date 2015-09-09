@@ -145,6 +145,23 @@ class Controller_Folders extends Controller_AdminTemplate
 			$this->template->content->bind('list', $list['tree']);
 		}
 	}
+	public function action_edit()
+	{
+		if($this->_auth->logged_in('admin'))
+		{
+			if($this->request->param('id'))
+			{
+				$folder = ORM::factory('Folders');
+				$folder_list = clone $folder;
+				$list = $folder_list->find_all();
+				$list = $this->prepare_folder_list($list);
+				$folder->where('id', '=', $this->request->param('id'))->find();
+				
+				$this->template->content = View::factory( 'template/admin/folders/edit' );
+				$this->template->content->bind('folder', $folder)->bind('list', $list['tree']);
+			}
+		}
+	}
 	public function levels_array($arr)
 	{
 		/*$levels = array();

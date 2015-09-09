@@ -44,15 +44,15 @@
 			<div class="col-sm-6">
 				<div class="form-group">
    		 			<label for="display_name"><?php echo __('DISPLAY_NAME');?></label>
-    				<input type="text" name="display_name" class="form-control" id="display_name" value="<?php echo $_POST['display_name'];?>">
+    				<input type="text" name="display_name" class="form-control" id="display_name" value="<?php echo $folder->display_name;?>">
   				</div>
   				<div class="form-group">
    		 			<label for="name"><?php echo __('NAME');?></label>
-    				<input type="text" name="name" disabled class="form-control" id="name" value="<?php echo $_POST['name'];?>">
+    				<input type="text" name="name" disabled class="form-control" id="name" value="<?php echo $folder->name.' - '.$folder->parent_id;?>">
   				</div>
   				<div class="form-group">
    		 			<label for="director"><?php echo __('DIRECTOR');?></label>
-    				<input type="text" name="director" disabled class="form-control" id="director" value="<?php echo 'public/upload/';?>">
+    				<input type="text" name="director" disabled class="form-control" id="director" value="<?php echo $folder->dir;?>">
   				</div>
 			</div>
 			<div class="col-sm-6">
@@ -61,22 +61,38 @@
   					<select class="form-control" name="parent_folder" id="parent_folder" hidden>
     					<option value="0">--</option>
     					<?php
-    						function walkTree($nodes, $level = 0) {
+    						function walkTree($nodes, $level = 0, $current_parent_id = 0) {
     							foreach($nodes as $key => $value) {
     								if($value['start'] == 1)
 									{
-										echo '<option value="'.$value['id'].'" data-value="'.$value['dir'].'">'.$value['display_name'].'</option>'."\n";
+										if($value['id'] == $current_parent_id)
+										{
+											echo '<option value="'.$value['id'].'" data-value="'.$value['dir'].'" selected="selected">'.$value['display_name'].'</option>'."\n";
+										}
+										else
+										{
+											echo '<option value="'.$value['id'].'" data-value="'.$value['dir'].'">'.$value['display_name'].'</option>'."\n";
+									
+										}
 									}
 									else 
 									{
-    									echo '<option value="'.$value['id'].'" data-value="'.$value['dir'].'">|'.str_repeat('---', $level).$value['display_name'].'</option>'."\n";
+										if($value['id'] == $current_parent_id)
+										{
+											echo '<option value="'.$value['id'].'" data-value="'.$value['dir'].'" selected="selected">'.$value['display_name'].'</option>'."\n";
+										}
+										else
+										{
+    										echo '<option value="'.$value['id'].'" data-value="'.$value['dir'].'">|'.str_repeat('---', $level).$value['display_name'].'</option>'."\n";
+									
+										}
 									}
         							if($value['children']) {
-            							walkTree($value['children'], $level + 1); 
+            							walkTree($value['children'], $level + 1, $current_parent_id); 
         							}
     							}
 							}
-							walkTree($list);
+							walkTree($list, $level, $folder->parent_id);
     					?>
   					</select>
 				</div>
