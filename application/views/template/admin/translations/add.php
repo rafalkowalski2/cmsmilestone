@@ -42,6 +42,17 @@
 		</div>
 	</div>
 	<div class="cols-sm-12">
+		<a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+  Link with href
+</a>
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+  Button with data-target
+</button>
+<div class="collapse" id="collapseExample">
+  <div class="well">
+    ...
+  </div>
+</div>
 		<form role="form" action="<?php echo Request::current()->uri();?>" method="post">
 			<div class="col-sm-4">
 				<div class="form-group">
@@ -62,7 +73,7 @@
 				</div>
 			</div>
 			<h2><?php echo __('TRANSLATION');?></h2>
-			<?php echo Helpers_Translations::generate_inputs_add($structure);?>
+			<?php echo Helpers_Translations::generate_inputs_add($structure, $category);?>
 			<input type="submit" name="create_translation" value="<?php echo __('SAVE');?>">
 		</form>
 	</div>

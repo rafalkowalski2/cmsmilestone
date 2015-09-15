@@ -62,7 +62,7 @@
 				</div>
 			</div>
 			<h2><?php echo __('TRANSLATION');?></h2>
-			<?php echo Helpers_Translations::generate_inputs_edit($structure, $translation);?>
+			<?php echo Helpers_Translations::generate_inputs_edit($structure, $translation, $category);?>
 			<input type="submit" name="update_translation" value="<?php echo __('SAVE');?>">
 		</form>
 	</div>

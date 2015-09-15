@@ -2,28 +2,67 @@
 class Controller_Translations extends Controller_AdminTemplate
 {
 	public $_director = 'application/i18n/';
+	public $_category_translations = array(
+		'global',
+		'menu',
+		'users',
+		'roles',
+	);
 	public $_structure_translation = array
 	(
-		//menu
-		'PAGES',
-		'ADD_PAGE',
-		'LIST_PAGE',
-		'FILEMANAGER',
-		'FOLDERS',
-		'ADD_FOLDER',	
-		'FILES',
-		'ADD_FILES',
-		'FILE_MANAGER',
-		'USERS',
-		'ADD_USER',
-		'USERS_LIST',
-		'SETTINGS',
-		'LANGUAGES',
-		'ADD_TRANSLATION',
-		'EDIT_TRANSLATION',
-		'LOGOUT',
-		'CHANGE_PASSWORD',
-		'MY_ACCOUNT'
+		'global' => array(
+			'SAVE',
+		),
+		'menu' => array(
+			'PAGES',
+			'ADD_PAGE',
+			'LIST_PAGE',
+			'FILEMANAGER',
+			'FOLDERS',
+			'ADD_FOLDER',	
+			'FILES',
+			'ADD_FILES',
+			'FILE_MANAGER',
+			'USERS',
+			'ADD_USER',
+			'USERS_LIST',
+			'SETTINGS',
+			'LANGUAGES',
+			'ADD_TRANSLATION',
+			'EDIT_TRANSLATION',
+			'LOGOUT',
+			'CHANGE_PASSWORD',
+			'MY_ACCOUNT'
+		),
+		'users' => array(
+			'OLD_PASSWORD',
+			'NEW_PASSWORD',
+			'CONF_NEW_PASSWORD',
+			'NAME',
+			'SURNAME',
+			'LOGIN',
+			'PASSWORD',
+			'CONFIRM_PASSWORD',
+			'E-MAIL',
+			'ROLE',
+			'ACTIVE',
+			'FIRST_LOGIN',
+			'ACTIVE_OFF',
+			'ACTIVE_TO',
+			'ABOUT_USER',
+			'AVATAR',
+			'DELETE_AVATAR',
+			'UPDATE_AVATAR',
+		),
+		'roles' => array(
+			'login',
+			'user',
+			'editor',
+			'chef_editor',
+			'technical',
+			'admin',
+			'super_admin'
+		),
 	);
 	public $_skip_key = array(
 		'create_translation',
@@ -68,7 +107,7 @@ class Controller_Translations extends Controller_AdminTemplate
 		if($this->_auth->logged_in('technical'))
 		{
 			$this->template->content = View::factory( 'template/admin/translations/add' );
-			$this->template->content->bind('structure', $this->_structure_translation);
+			$this->template->content->bind('structure', $this->_structure_translation)->bind('category', $this->_category_translations);
 			if(isset($_POST['create_translation']))
 			{
 				$this->_generate_translation_file($this->request->post('language_symbol'), $this->_generate_translation_array($this->request->post()));
@@ -105,6 +144,7 @@ class Controller_Translations extends Controller_AdminTemplate
 				$translation_array = I18n::load($translation->language_symbol);
 				$this->template->content = View::factory( 'template/admin/translations/edit' );
 				$this->template->content->bind('structure', $this->_structure_translation)
+										->bind('category', $this->_category_translations)
 										->bind('translation',$translation_array)
 										->bind('translation_detail', $translation);
 				if(isset($_POST['update_translation']))

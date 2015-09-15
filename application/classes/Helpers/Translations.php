@@ -1,33 +1,74 @@
 <?php
 class Helpers_Translations{
-	public static function generate_inputs_add($array)
+	public static function generate_inputs_add($array, $category)
 	{
-		$string = '';
-		foreach($array as $val)
+		$string = "\n".'<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">';
+		foreach($category as $key => $cat)
 		{
 			$string .= '
-			<div class="col-sm-4">
-				<div class="form-group">
-					<label for="'.$val.'">'.$val.'</label>
-    				<input type="text" name="'.$val.'" class="form-control" id="'.$val.'">
-				</div>
-			</div>';
+			 <div class="panel panel-default">
+    			<div class="panel-heading" role="tab" id="heading'.$key.'">
+      				<h4 class="panel-title">
+       					<a role="button" data-toggle="collapse" data-parent="#accordion" href="#'.$cat.'" aria-expanded="true" aria-controls="'.$cat.'">
+          					'.$cat.'
+        				</a>
+      				</h4>
+    			</div>
+    			<div id="'.$cat.'" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading'.$key.'">
+     	 		<div class="panel-body">';
+					
+			foreach($array[$cat] as $val)
+			{
+				$string .= '
+				<div class="col-sm-4">
+					<div class="form-group">
+						<label for="'.$val.'">'.$val.'</label>
+    					<input type="text" name="'.$val.'" class="form-control" id="'.$val.'">
+					</div>
+				</div>';
+			}
+			$string .= '
+			</div>
+			</div>
+			</div>
+			';
 		}
-		return $string;
+			$string .= '</div>';
+			return $string;
 	}
-	public static function generate_inputs_edit($array, $transtaltion)
+	public static function generate_inputs_edit($array, $transtaltion, $category)
 	{
-		$string = '';
-		foreach($array as $val)
+		$string = "\n".'<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">';
+		foreach($category as $key => $cat)
 		{
 			$string .= '
-			<div class="col-sm-4">
-				<div class="form-group">
-					<label for="'.$val.'">'.$val.'</label>
-    				<input type="text" name="'.$val.'" class="form-control" id="'.$val.'" value="'.$transtaltion[$val].'">
-				</div>
-			</div>';
+			 <div class="panel panel-default">
+    			<div class="panel-heading" role="tab" id="heading'.$key.'">
+      				<h4 class="panel-title">
+       					<a role="button" data-toggle="collapse" data-parent="#accordion" href="#'.$cat.'" aria-expanded="true" aria-controls="'.$cat.'">
+          					'.$cat.'
+        				</a>
+      				</h4>
+    			</div>
+    			<div id="'.$cat.'" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading'.$key.'">
+     	 		<div class="panel-body">';
+			foreach($array[$cat] as $val)
+			{
+				$string .= '
+				<div class="col-sm-4">
+					<div class="form-group">
+						<label for="'.$val.'">'.$val.'</label>
+    					<input type="text" name="'.$val.'" class="form-control" id="'.$val.'" value="'.$transtaltion[$val].'">
+					</div>
+				</div>';
+			}
+			$string .= '
+			</div>
+			</div>
+			</div>
+			';
 		}
+		$string .= '</div>';
 		return $string;
 	}
 	public static function generate_translations_list($array)
