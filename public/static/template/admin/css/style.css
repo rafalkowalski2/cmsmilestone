@@ -1,6 +1,6 @@
 body, html {
 	margin-top:35px;
-    height: 100%;
+	margin-bottom:30px;
     background:#a9a9a9;
 
 }
@@ -159,4 +159,17 @@ body, html {
 .forgot-password:active,
 .forgot-password:focus{
     color: rgb(12, 97, 33);
+}
+
+/* footer */
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding-top: 5px;
+  /* Set the fixed height of the footer here */
+  height: 45px;
+  z-index:9999;
+  background-color: #daf17e;
 }

@@ -68,7 +68,7 @@ mb_substitute_character('none');
 /**
  * Set the default language
  */
-I18n::lang('en-us');
+I18n::lang('pl');
 
 if (isset($_SERVER['SERVER_PROTOCOL']))
 {
@@ -126,7 +126,7 @@ Kohana::modules(array(
 	// 'codebench'  => MODPATH.'codebench',  // Benchmarking tool
 	'database'   => MODPATH.'database',   // Database access
 	'image'      => MODPATH.'image',      // Image manipulation
-	// 'minion'     => MODPATH.'minion',     // CLI Tasks
+	'minion'     => MODPATH.'minion',     // CLI Tasks
 	'orm'        => MODPATH.'orm',        // Object Relationship Mapping
 	'pagination' => MODPATH.'pagination',        // Object Relationship Mapping
 	// 'unittest'   => MODPATH.'unittest',   // Unit testing
@@ -147,18 +147,24 @@ Kohana::modules(array(
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
  * defaults for the URI.
  */
-Route::set('admin_page', '(<language>)/admin(/<controller>(/<action>))/page(/<page>)')
+Route::set('admin_default', 'admin(/<controller>(/<action>(/<id>)(/page(/<page>))))')
+	->defaults(array(
+		'controller' => 'User',
+		'action'     => 'login',
+	));
+Route::set('admin_page_language', '(<language>)/admin(/<controller>(/<action>))/page(/<page>)')
     ->defaults(array(		
         'controller' => 'User',
         'action'     => 'login',
         'type'		 => 'admin',
     ));
-Route::set('admin', '(<language>)/admin(/<controller>(/<action>(/<id>)))')
+Route::set('admin_language', '(<language>)/admin(/<controller>(/<action>(/<id>)))')
     ->defaults(array(		
         'controller' => 'User',
         'action'     => 'login',
         'type'		 => 'admin',
     ));
+
 Route::set('default', '(<language>)(/<controller>(/<action>(/<id>)))')
 	->defaults(array(
 		'controller' => 'welcome',

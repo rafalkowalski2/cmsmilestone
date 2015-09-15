@@ -84,6 +84,30 @@
 	}
 	?>
 	<?php echo $content."\n"; ?>
+	<?php if(Auth::instance()->logged_in() AND Session::instance()->get('is_login'))
+	{
+	?>
+	<footer class="footer">
+    	<div class="container-fluid marign-borders">
+      		<div class="row">
+      			<div class="col-sm-10">
+      				sgsgsfgsg
+      			</div>
+      			<div class="col-sm-2">
+      				<form role="form" action="<?php echo Request::current()->uri();?>" method="POST">
+      					<div class="form-group">
+      						<select class="form-control" name="language_website" onchange="this.form.submit()">
+      							<?php echo Helpers_Translations::generate_languages_lists($languages); ?>
+      						</select>
+      					</div>
+      				</form>
+      			</div>
+        	</div>
+     	</div>
+    </footer>
+   	<?php
+	}
+	?>
 	</body>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script type="text/javascript" src="/public/static/template/admin/js/moment.min.js"></script>

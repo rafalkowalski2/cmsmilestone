@@ -24,6 +24,7 @@ class Controller_AdminTemplate extends Controller_Template
 		);
         $this->template->title   = $this->_title;
         $this->template->style   = $_style; 
+		$this->template->languages = ORM::factory('Translations')->find_all();
         $this->template->script  = $_script;   
         parent::after();
 		
@@ -48,6 +49,28 @@ class Controller_AdminTemplate extends Controller_Template
 	}
 	public function  __construct(Request $request, Response $response) {
         parent::__construct($request, $response);
+		if(!isset($_COOKIE['cms_milestone_language']))
+		{
+			setcookie( 'cms_milestone_language', I18n::lang(), time()+(60*60*24*30) );
+		}
+		if(isset($_POST['language_website']))
+		{
+			setcookie( 'cms_milestone_language', $this->request->post('language_website'), time()+(60*60*24*30) );
+			$new_adress = $this->request->post('language_website').substr($this->request->uri(), strpos($this->request->uri(), '/'));
+			HTTP::redirect(URL::site($new_adress, TRUE), 302);
+		}
+		if(!$this->request->param('language'))
+		{
+			print_r($_COOKIE);
+			if(isset($_COOKIE['cms_milestone_language']))
+			{
+				HTTP::redirect($_COOKIE['cms_milestone_language'].'/'.$this->request->uri(), 302);
+			}
+			else 
+			{
+				HTTP::redirect(I18n::lang().'/'.$this->request->uri(), 302);
+			}
+		}
         I18n::lang($this->request->param('language'));
 		$this->_session = Session::instance();
 		$this->_auth = Auth::instance();

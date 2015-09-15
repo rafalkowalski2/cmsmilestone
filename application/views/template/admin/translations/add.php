@@ -42,8 +42,26 @@
 		</div>
 	</div>
 	<div class="cols-sm-12">
-		<form action="" method="post">
-			
+		<form role="form" action="<?php echo Request::current()->uri();?>" method="post">
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="language"><?php echo __('LANGUAGE');?></label>
+    				<input type="text" name="language" class="form-control" id="language">
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="language_symbol"><?php echo __('LANGUAGE_SYMBOL');?></label>
+    				<input type="text" name="language_symbol" class="form-control" id="language_symbol">
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="version"><?php echo __('VERSION');?></label>
+    				<input type="text" name="version" class="form-control" id="version">
+				</div>
+			</div>
+			<h2><?php echo __('TRANSLATION');?></h2>
 			<?php echo Helpers_Translations::generate_inputs_add($structure);?>
 			<input type="submit" name="create_translation" value="<?php echo __('SAVE');?>">
 		</form>
