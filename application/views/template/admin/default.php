@@ -62,6 +62,9 @@
               	<li class="dropdown-header"><?php echo __('LANGUAGES'); ?></li>
                 <li><a href="<?php echo URL::site(Request::current()->param('language').'/admin/translations/add'); ?>"><?php echo __('ADD_TRANSLATION');?></a></li>
                 <li><a href="<?php echo URL::site(Request::current()->param('language').'/admin/translations/list'); ?>"><?php echo __('EDIT_TRANSLATION');?></a></li>
+                <li class="dropdown-header"><?php echo __('PAGES'); ?></li>
+                <li><a href="<?php echo URL::site(Request::current()->param('language').'/admin/categories/add'); ?>"><?php echo __('ADD_CATEGORY');?></a></li>
+                <li><a href="<?php echo URL::site(Request::current()->param('language').'/admin/categories/list'); ?>"><?php echo __('CATEGORIES');?></a></li>
               </ul></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">

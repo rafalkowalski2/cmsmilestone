@@ -18,6 +18,8 @@ return array(
 	'LANGUAGES' => 'Języki',
 	'ADD_TRANSLATION' => 'Dodaj tłumaczenie',
 	'EDIT_TRANSLATION' => 'Edytuj tłumaczenie',
+	'ADD_CATEGORY' => 'Dodaj kategorie',
+	'CATEGORIES' => 'Kategorie',
 	'LOGOUT' => 'Wyloguj się ',
 	'CHANGE_PASSWORD' => 'Zmiana hasła',
 	'MY_ACCOUNT' => 'Moje konto',

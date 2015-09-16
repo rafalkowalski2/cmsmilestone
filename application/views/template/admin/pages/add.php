@@ -40,10 +40,19 @@
 			}
 			?>
 		</div>
-		<form role="form" method="post">
+		<form role="form" action="<?php echo Request::current()->uri();?>" method="post">
     		<div class="col-sm-6">
+    			<div class="form-group">
+   		 			<label for="page_name"><?php echo __('PAGE_NAME');?></label>
+    				<input type="text" name="page_name" class="form-control" id="page_name" value="">
+  				</div>
+  				<div class="form-group">
+   		 			<label for="page_category"><?php echo __('PAGE_CATEGORY');?></label>
+    				<input type="text" name="page_category" class="form-control" id="page_category" value="">
+  				</div>
     		</div>
    			<div class="col-sm-6">
+   				sfsdf
 			</div>
 			<div class="col-sm-12">
 				<div class="form-group">

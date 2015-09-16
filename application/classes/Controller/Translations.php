@@ -30,6 +30,8 @@ class Controller_Translations extends Controller_AdminTemplate
 			'LANGUAGES',
 			'ADD_TRANSLATION',
 			'EDIT_TRANSLATION',
+			'ADD_CATEGORY',
+			'CATEGORIES',
 			'LOGOUT',
 			'CHANGE_PASSWORD',
 			'MY_ACCOUNT'
