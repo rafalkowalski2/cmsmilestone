@@ -287,3 +287,9 @@
 #14 /var/www/system/classes/Kohana/Request.php(997): Kohana_Request_Client->execute(Object(Request))
 #15 /var/www/index.php(118): Kohana_Request->execute()
 #16 {main} in /var/www/application/views/template/admin/pages/add.php:57
+2015-09-16 17:24:57 --- EMERGENCY: ErrorException [ 1 ]: Call to undefined method Controller_Pages::prepare_folder_list() ~ APPPATH/classes/Controller/Pages.php [ 14 ] in file:line
+2015-09-16 17:24:57 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line
+2015-09-16 17:39:58 --- EMERGENCY: ErrorException [ 4 ]: syntax error, unexpected ')' ~ APPPATH/views/template/admin/pages/add.php [ 114 ] in file:line
+2015-09-16 17:39:58 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line

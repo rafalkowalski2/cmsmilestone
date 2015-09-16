@@ -71,9 +71,7 @@
     		</div>
    			<div class="col-sm-6">
    				<!-- Button trigger modal -->
-<button type="button" class="btn btn btn-default btn-lg" data-toggle="modal" data-target="#myModal">
-  Launch demo modal
-</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Large modal</button>
 
 			</div>
 			<div class="col-sm-12">
@@ -89,16 +87,62 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
+
+
+<div class="modal fade bs-example-modal-lg" style="z-index:9999999999999" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal-lg" style="width: 95% ">
+    <<div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Modal title</h4>
       </div>
       <div class="modal-body">
-        <input type="text" id="test_test">
-        <input type="button" id="insert" value="insert">
+      	<div class="row">
+      		<div class="col-sm-4" style="max-height:60%; overflow: scroll; overflow-x: hidden">
+      			<table class="table borderless test-tree">
+				<?php
+					function show($arr)
+					{
+						foreach($arr as $key => $value)
+						{
+							$string = '<tr class="treegrid-'.$value['id'];
+							if(key_exists('children', $value))
+							{
+								if(key_exists('parent_id', $value) AND $value['parent_id'] != 0)
+								{
+									$string .= ' treegrid-parent-'.$value['parent_id'].'">';
+									$string .= '<td><a class="folder-id" name="'.$value['id'].'">'.$value['display_name'].'</a></td></tr>'."\n";
+								}
+								else 
+								{
+									$string .= '"><td><a class="folder-id" name="'.$value['id'].'">'.$value['display_name'].'</a></td></tr>'."\n";
+								}
+								echo $string;
+								show((array)$value['children'], $str);
+							}
+							else 
+							{
+								if(key_exists('parent_id', $value) AND $value['parent_id'] != 0)
+								{
+									$string .= ' treegrid-parent-'.$value['parent_id'].'">';
+									$string .= '<td><a class="folder-id" name="'.$value['id'].'">'.$value['display_name'].'</a></td></tr>'."\n";
+								}
+								else
+								{
+									$string .= '"><td><a class="folder-id" name="'.$value['id'].'">'.$value['display_name'].'</a></td></tr>'."\n";
+								}
+								echo $string;
+							}										
+						}
+					}
+					show($list);
+					?>
+				</table>
+      		</div> 
+      		<div class="cols-sm-8" style="max-height: 60%; overflow: scroll;overflow-x: hidden">
+      			<div id="results"></div>
+      		</div>
+      	</div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

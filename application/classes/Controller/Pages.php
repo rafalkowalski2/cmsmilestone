@@ -8,13 +8,63 @@ class Controller_Pages extends Controller_AdminTemplate
 			$category_list = ORM::factory('Categories')->find_all();
 			$category_list = $this->_prepare_list_array($category_list);
 			print_r($category_list['tree']);
+			$folder = ORM::factory('Folders');
+			$folder_list = clone $folder;
+			$list = $folder_list->find_all()->as_array();
+			$list = $this->prepare_folder_list($list);
 			$this->template->content = View::factory( 'template/admin/pages/add' );
 			$this->template->content->bind('category_list', $category_list['tree']);
+			$this->template->content->bind('list', $list['tree'])->bind('levels', $list['levels']);
 		}
 		else 
 		{
 			echo 'no access';	
 		}
+	}
+	public function prepare_folder_list($list)
+	{
+		$temp = array();
+		$indexed_arr = array();
+		
+		foreach($list as $key => $value)
+		{
+				$temp[$value->id]['id'] 			= $value->id;
+				$temp[$value->id]['parent_id'] 		= $value->parent_id;
+				$temp[$value->id]['name'] 			= $value->name;
+				$temp[$value->id]['display_name'] 	= $value->display_name;	
+				$temp[$value->id]['dir']			= $value->dir;	
+		}
+		foreach($temp as $item)
+		{
+       		 $indexed_arr[$item['id']] = $item;
+		}
+		$levels = array();
+		$tree = array();
+		$level = 0;
+		foreach($indexed_arr as $id => $v)
+		{
+        	$item = &$indexed_arr[$id];
+       		if($item['parent_id'] == 0)
+        	{
+                $tree[$id] = &$item;
+				$tree[$id]['start'] = true;
+				$levels[$id]++;
+        	}
+       		elseif(isset($indexed_arr[$item['parent_id']]))
+        	{
+        		$indexed_arr[$item['parent_id']]['children'][$id] = &$item;
+				$levels[$item['parent_id']]++;
+        	}
+       	 	else
+        	{
+                $tree['_orphans_'][$id] = &$item;
+        	}
+		}
+		//print_r( $levels);
+		$tmp['tree'] = $tree;
+		$tmp['levels'] = $levels;
+		//print_r($tmp['tree']);
+		return $tmp;
 	}
 	/*
 	 * Funkcja dodająca kategorie stron

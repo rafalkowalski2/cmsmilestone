@@ -245,6 +245,7 @@ class Controller_Files extends Controller_AdminTemplate
 			if($this->request->param('id'))
 			{
 				$files = ORM::factory('Files')->get_files_list($this->request->param('id'));
+				print_r(json_encode($files));
 				$this->template->content->bind('files_list', $files);
 			}
 		}
@@ -277,5 +278,13 @@ class Controller_Files extends Controller_AdminTemplate
 			}
 		}
 	}
-	
+	public function action_ajax_get_files()
+	{
+		header('Content-type:application/json');
+		header('Content-type: text/plain; charset=utf-8');
+		$this->auto_render = FALSE;
+		//sleep(5);
+		$files = ORM::factory('Files')->get_files_list($this->request->post('folder_id'));
+		print_r(json_encode($files));
+	}
 }

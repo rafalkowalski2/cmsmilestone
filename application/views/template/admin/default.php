@@ -142,6 +142,7 @@
             images_upload_url: "postAcceptor.php",
    		 	images_upload_base_path: "/some/basepath",
     		images_upload_credentials: true,
+    		relative_urls: false,
     		plugins: [
       			"advlist autolink lists link image charmap print preview hr anchor pagebreak",
         		"searchreplace wordcount visualblocks visualchars code fullscreen",
@@ -193,12 +194,60 @@
         $('#delete_field').click(function(){
         	$('.field-files-container').children('div[class="form-group"]:last').remove()
         })
-        $('#insert').click(function(){
+        /*$('#insert').click(function(){
         	var string = tinymce.get('page_value').getContent();
-        	string += '<img src="/public/upload/media/gallery/bergamotka-sala/20150825144924.jpg">';
+        	string += '<img src="http://192.168.0.17/public/upload/media/gallery/bergamotka-sala/20150825144924.jpg" width="300">';
         	$(tinymce.get('page_value').getBody()).html(string);
-        })
-        alert('działa');
+        })*/
+       	$('.folder-id').click(function()
+       	{
+       		$.ajax({
+				type     : "POST",
+    			url      : "/en/admin/files/ajax_get_files",
+    			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+				dataType: "JSON", 
+    			data     : {
+            			'folder_id' : $(this).attr('name')
+   	 			},
+   	 			beforeSend: function()
+            	{
+            		$('#results').html('<img src="/public/static/template/admin/images/loading_2.gif" />');
+            	},
+    			success : function(msg) {
+    				$('#results').html('');
+    				$.each(msg, function(index, items) {
+    					if(items.file_type.indexOf('image') >= 0)
+    					{
+    						$('#results').append('<div style="display:inline-block; margin-left: 5px; margin-top: 5px;"><div><img src="'+items.folder_director+'/'+items.file_name+'" width="150px" /></div><div><a class="add-to-textarea" name="'+items.folder_director+'/'+items.file_name+'">INSERT</a></div></div>');
+                   		}
+                   		else
+                   		{
+                   			$('#results').append('<div><a name="#">'+items.file_name+'</a>')
+                   		}
+                   		//$('#results').append('<p>'+items.folder_director+'/'+items.file_name+'</p>');
+                	});
+                	$('.add-to-textarea').click(function()
+       				{
+       					var string = tinymce.get('page_value').getContent();
+        				string += '<img src="http://'+window.location.host+'/'+$(this).attr('name')+'" width="300">';
+        				$(tinymce.get('page_value').getBody()).html(string);
+       				})
+        			//ten fragment wykona się po POMYŚLNYM zakończeniu połączenia
+        			//msg zawiera dane zwrócone z serwera
+    			},
+    			complete : function(r) {
+    				//alert('complete'+r);
+        			//ten fragment wykona się po ZAKONCZENIU połączenia
+        			//"r" to przykładowa nazwa zmiennej, która zawiera dane zwrócone z serwera
+    			},
+    			error:    function(error) {
+    				//alert('error'+error);
+        			//ten fragment wykona się w przypadku BŁĘDU
+    			}
+			});
+			//alert($(this).attr('name'));
+       	})
+        //alert('działa');
     });
 	</script>
 </html>
