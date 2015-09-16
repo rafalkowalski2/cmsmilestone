@@ -37,9 +37,9 @@
 									<td>'.$value['u_name'].' '.$value['u_surname'].'</td>
 									<td>'.$value['create_date'].'</td>
 									<td>
-										<a href="'.URL::site(Request::current()->param('language').'/admin/folders/edit/'.$value['id']).'">Edit</a> 
+										<a href="'.URL::site(Request::current()->param('language').'/admin/categories/edit/'.$value['id']).'">'.__('EDIT').'</a> 
 										| 
-										<a href="'.URL::site(Request::current()->param('language').'/admin/folders/delete/'.$value['id']).'">Delete</a>
+										<a href="'.URL::site(Request::current()->param('language').'/admin/categories/delete/'.$value['id']).'">'.__('DELETE').'</a>
 									</td>
 								  </tr>'."\n";
 						}
@@ -51,9 +51,9 @@
     								<td>'.$value['u_name'].' '.$value['u_surname'].'</td>
     								<td>'.$value['create_date'].'</td>
     								<td>
-										<a href="'.URL::site(Request::current()->param('language').'/admin/folders/edit/'.$value['id']).'">Edit</a> 
+										<a href="'.URL::site(Request::current()->param('language').'/admin/categories/edit/'.$value['id']).'">'.__('EDIT').'</a> 
 										| 
-										<a href="'.URL::site(Request::current()->param('language').'/admin/folders/delete/'.$value['id']).'">Delete</a>
+										<a href="'.URL::site(Request::current()->param('language').'/admin/categories/delete/'.$value['id']).'">'.__('DELETE').'</a>
 									</td>
     							  </tr>'."\n";
 						}

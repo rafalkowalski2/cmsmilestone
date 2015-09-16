@@ -12,6 +12,9 @@ class Controller_Translations extends Controller_AdminTemplate
 	(
 		'global' => array(
 			'SAVE',
+			'EDIT',
+			'DELETE',
+			'FUNCTION',
 		),
 		'menu' => array(
 			'PAGES',

@@ -177,3 +177,95 @@
 2015-09-16 05:52:32 --- EMERGENCY: ErrorException [ 4 ]: syntax error, unexpected '/' ~ APPPATH/views/template/admin/categories/list.php [ 37 ] in file:line
 2015-09-16 05:52:32 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
 #1 {main} in file:line
+2015-09-16 10:22:41 --- EMERGENCY: ErrorException [ 1 ]: Call to undefined method Auth_ORM::loggend_id() ~ APPPATH/classes/Controller/Categories.php [ 51 ] in file:line
+2015-09-16 10:22:41 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line
+2015-09-16 10:22:42 --- EMERGENCY: ErrorException [ 1 ]: Call to undefined method Auth_ORM::loggend_id() ~ APPPATH/classes/Controller/Categories.php [ 51 ] in file:line
+2015-09-16 10:22:42 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line
+2015-09-16 10:22:50 --- EMERGENCY: ErrorException [ 1 ]: Call to undefined method Auth_ORM::loggend_in() ~ APPPATH/classes/Controller/Categories.php [ 51 ] in file:line
+2015-09-16 10:22:50 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line
+2015-09-16 10:22:51 --- EMERGENCY: ErrorException [ 1 ]: Call to undefined method Auth_ORM::loggend_in() ~ APPPATH/classes/Controller/Categories.php [ 51 ] in file:line
+2015-09-16 10:22:51 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line
+2015-09-16 10:22:51 --- EMERGENCY: ErrorException [ 1 ]: Call to undefined method Auth_ORM::loggend_in() ~ APPPATH/classes/Controller/Categories.php [ 51 ] in file:line
+2015-09-16 10:22:51 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line
+2015-09-16 10:24:19 --- EMERGENCY: ErrorException [ 2 ]: Invalid argument supplied for foreach() ~ APPPATH/views/template/admin/categories/edit.php [ 59 ] in /var/www/application/views/template/admin/categories/edit.php:59
+2015-09-16 10:24:19 --- DEBUG: #0 /var/www/application/views/template/admin/categories/edit.php(59): Kohana_Core::error_handler(2, 'Invalid argumen...', '/var/www/applic...', 59, Array)
+#1 /var/www/application/views/template/admin/categories/edit.php(69): walkTree(NULL)
+#2 /var/www/system/classes/Kohana/View.php(62): include('/var/www/applic...')
+#3 /var/www/system/classes/Kohana/View.php(359): Kohana_View::capture('/var/www/applic...', Array)
+#4 /var/www/system/classes/Kohana/View.php(236): Kohana_View->render()
+#5 /var/www/application/views/template/admin/default.php(89): Kohana_View->__toString()
+#6 /var/www/system/classes/Kohana/View.php(62): include('/var/www/applic...')
+#7 /var/www/system/classes/Kohana/View.php(359): Kohana_View::capture('/var/www/applic...', Array)
+#8 /var/www/system/classes/Kohana/Controller/Template.php(44): Kohana_View->render()
+#9 /var/www/application/classes/Controller/AdminTemplate.php(29): Kohana_Controller_Template->after()
+#10 /var/www/system/classes/Kohana/Controller.php(87): Controller_AdminTemplate->after()
+#11 [internal function]: Kohana_Controller->execute()
+#12 /var/www/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Categories))
+#13 /var/www/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#14 /var/www/system/classes/Kohana/Request.php(997): Kohana_Request_Client->execute(Object(Request))
+#15 /var/www/index.php(118): Kohana_Request->execute()
+#16 {main} in /var/www/application/views/template/admin/categories/edit.php:59
+2015-09-16 11:01:46 --- EMERGENCY: ErrorException [ 4 ]: syntax error, unexpected '}' ~ APPPATH/classes/Controller/Categories.php [ 117 ] in file:line
+2015-09-16 11:01:46 --- DEBUG: #0 [internal function]: Kohana_Core::shutdown_handler()
+#1 {main} in file:line
+2015-09-16 11:15:34 --- EMERGENCY: ErrorException [ 2 ]: Missing argument 1 for Controller_Categories::_delete_multi_category(), called in /var/www/application/classes/Controller/Categories.php on line 101 and defined ~ APPPATH/classes/Controller/Categories.php [ 120 ] in /var/www/application/classes/Controller/Categories.php:120
+2015-09-16 11:15:34 --- DEBUG: #0 /var/www/application/classes/Controller/Categories.php(120): Kohana_Core::error_handler(2, 'Missing argumen...', '/var/www/applic...', 120, Array)
+#1 /var/www/application/classes/Controller/Categories.php(101): Controller_Categories->_delete_multi_category()
+#2 /var/www/system/classes/Kohana/Controller.php(84): Controller_Categories->action_delete()
+#3 [internal function]: Kohana_Controller->execute()
+#4 /var/www/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Categories))
+#5 /var/www/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#6 /var/www/system/classes/Kohana/Request.php(997): Kohana_Request_Client->execute(Object(Request))
+#7 /var/www/index.php(118): Kohana_Request->execute()
+#8 {main} in /var/www/application/classes/Controller/Categories.php:120
+2015-09-16 11:15:53 --- EMERGENCY: Database_Exception [ 42S22 ]: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'parnet_id' in 'where clause' [ SELECT categories.id AS id, categories.parent_id AS parent_id, categories.name AS name, categories.user_id AS user_id, categories.date_add AS date_add, categories.change_date AS change_date FROM categories AS categories WHERE parnet_id = '2' LIMIT 1 ] ~ MODPATH/database/classes/Kohana/Database/PDO.php [ 157 ] in /var/www/modules/database/classes/Kohana/Database/Query.php:251
+2015-09-16 11:15:53 --- DEBUG: #0 /var/www/modules/database/classes/Kohana/Database/Query.php(251): Kohana_Database_PDO->query(1, 'SELECT categori...', false, Array)
+#1 /var/www/modules/orm/classes/Kohana/ORM.php(1072): Kohana_Database_Query->execute(Object(Database_PDO))
+#2 /var/www/modules/orm/classes/Kohana/ORM.php(979): Kohana_ORM->_load_result(false)
+#3 /var/www/application/classes/Controller/Categories.php(122): Kohana_ORM->find()
+#4 /var/www/application/classes/Controller/Categories.php(101): Controller_Categories->_delete_multi_category('2')
+#5 /var/www/system/classes/Kohana/Controller.php(84): Controller_Categories->action_delete()
+#6 [internal function]: Kohana_Controller->execute()
+#7 /var/www/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Categories))
+#8 /var/www/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#9 /var/www/system/classes/Kohana/Request.php(997): Kohana_Request_Client->execute(Object(Request))
+#10 /var/www/index.php(118): Kohana_Request->execute()
+#11 {main} in /var/www/modules/database/classes/Kohana/Database/Query.php:251
+2015-09-16 11:17:30 --- EMERGENCY: Kohana_Exception [ 0 ]: The _id property does not exist in the Model_Categories class ~ MODPATH/orm/classes/Kohana/ORM.php [ 687 ] in /var/www/modules/orm/classes/Kohana/ORM.php:603
+2015-09-16 11:17:30 --- DEBUG: #0 /var/www/modules/orm/classes/Kohana/ORM.php(603): Kohana_ORM->get('_id')
+#1 /var/www/application/classes/Controller/Categories.php(126): Kohana_ORM->__get('_id')
+#2 /var/www/application/classes/Controller/Categories.php(101): Controller_Categories->_delete_multi_category('2')
+#3 /var/www/system/classes/Kohana/Controller.php(84): Controller_Categories->action_delete()
+#4 [internal function]: Kohana_Controller->execute()
+#5 /var/www/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Categories))
+#6 /var/www/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#7 /var/www/system/classes/Kohana/Request.php(997): Kohana_Request_Client->execute(Object(Request))
+#8 /var/www/index.php(118): Kohana_Request->execute()
+#9 {main} in /var/www/modules/orm/classes/Kohana/ORM.php:603
+2015-09-16 11:22:42 --- EMERGENCY: Kohana_Exception [ 0 ]: Cannot delete categories model because it is not loaded. ~ MODPATH/orm/classes/Kohana/ORM.php [ 1434 ] in /var/www/application/classes/Controller/Categories.php:138
+2015-09-16 11:22:42 --- DEBUG: #0 /var/www/application/classes/Controller/Categories.php(138): Kohana_ORM->delete()
+#1 /var/www/application/classes/Controller/Categories.php(126): Controller_Categories->_delete_category('4')
+#2 /var/www/application/classes/Controller/Categories.php(130): Controller_Categories->_delete_multi_category('4')
+#3 /var/www/application/classes/Controller/Categories.php(101): Controller_Categories->_delete_multi_category('2')
+#4 /var/www/system/classes/Kohana/Controller.php(84): Controller_Categories->action_delete()
+#5 [internal function]: Kohana_Controller->execute()
+#6 /var/www/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Categories))
+#7 /var/www/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#8 /var/www/system/classes/Kohana/Request.php(997): Kohana_Request_Client->execute(Object(Request))
+#9 /var/www/index.php(118): Kohana_Request->execute()
+#10 {main} in /var/www/application/classes/Controller/Categories.php:138
+2015-09-16 11:29:52 --- EMERGENCY: Kohana_Exception [ 0 ]: Cannot delete categories model because it is not loaded. ~ MODPATH/orm/classes/Kohana/ORM.php [ 1434 ] in /var/www/application/classes/Controller/Categories.php:139
+2015-09-16 11:29:52 --- DEBUG: #0 /var/www/application/classes/Controller/Categories.php(139): Kohana_ORM->delete()
+#1 /var/www/application/classes/Controller/Categories.php(107): Controller_Categories->_delete_category('11')
+#2 /var/www/system/classes/Kohana/Controller.php(84): Controller_Categories->action_delete()
+#3 [internal function]: Kohana_Controller->execute()
+#4 /var/www/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Categories))
+#5 /var/www/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#6 /var/www/system/classes/Kohana/Request.php(997): Kohana_Request_Client->execute(Object(Request))
+#7 /var/www/index.php(118): Kohana_Request->execute()
+#8 {main} in /var/www/application/classes/Controller/Categories.php:139

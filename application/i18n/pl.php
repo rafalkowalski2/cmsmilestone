@@ -2,6 +2,9 @@
 defined('SYSPATH') or die('No direct script');
 return array(
 	'SAVE' => 'Zapisz',
+	'EDIT' => 'Edytuj',
+	'DELETE' => 'Usuń',
+	'FUNCTION' => 'Funkcje',
 	'PAGES' => 'Strony',
 	'ADD_PAGE' => 'Dodaj strone',
 	'LIST_PAGE' => 'Strony',
