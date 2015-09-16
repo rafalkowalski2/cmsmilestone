@@ -269,3 +269,21 @@
 #6 /var/www/system/classes/Kohana/Request.php(997): Kohana_Request_Client->execute(Object(Request))
 #7 /var/www/index.php(118): Kohana_Request->execute()
 #8 {main} in /var/www/application/classes/Controller/Categories.php:139
+2015-09-16 11:53:21 --- EMERGENCY: ErrorException [ 2 ]: Invalid argument supplied for foreach() ~ APPPATH/views/template/admin/pages/add.php [ 57 ] in /var/www/application/views/template/admin/pages/add.php:57
+2015-09-16 11:53:21 --- DEBUG: #0 /var/www/application/views/template/admin/pages/add.php(57): Kohana_Core::error_handler(2, 'Invalid argumen...', '/var/www/applic...', 57, Array)
+#1 /var/www/application/views/template/admin/pages/add.php(67): walkTree(NULL)
+#2 /var/www/system/classes/Kohana/View.php(62): include('/var/www/applic...')
+#3 /var/www/system/classes/Kohana/View.php(359): Kohana_View::capture('/var/www/applic...', Array)
+#4 /var/www/system/classes/Kohana/View.php(236): Kohana_View->render()
+#5 /var/www/application/views/template/admin/default.php(89): Kohana_View->__toString()
+#6 /var/www/system/classes/Kohana/View.php(62): include('/var/www/applic...')
+#7 /var/www/system/classes/Kohana/View.php(359): Kohana_View::capture('/var/www/applic...', Array)
+#8 /var/www/system/classes/Kohana/Controller/Template.php(44): Kohana_View->render()
+#9 /var/www/application/classes/Controller/AdminTemplate.php(29): Kohana_Controller_Template->after()
+#10 /var/www/system/classes/Kohana/Controller.php(87): Controller_AdminTemplate->after()
+#11 [internal function]: Kohana_Controller->execute()
+#12 /var/www/system/classes/Kohana/Request/Client/Internal.php(97): ReflectionMethod->invoke(Object(Controller_Pages))
+#13 /var/www/system/classes/Kohana/Request/Client.php(114): Kohana_Request_Client_Internal->execute_request(Object(Request), Object(Response))
+#14 /var/www/system/classes/Kohana/Request.php(997): Kohana_Request_Client->execute(Object(Request))
+#15 /var/www/index.php(118): Kohana_Request->execute()
+#16 {main} in /var/www/application/views/template/admin/pages/add.php:57

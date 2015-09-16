@@ -5,7 +5,11 @@ class Controller_Pages extends Controller_AdminTemplate
 	{
 		if($this->_auth->logged_in('editor'))
 		{
+			$category_list = ORM::factory('Categories')->find_all();
+			$category_list = $this->_prepare_list_array($category_list);
+			print_r($category_list['tree']);
 			$this->template->content = View::factory( 'template/admin/pages/add' );
+			$this->template->content->bind('category_list', $category_list['tree']);
 		}
 		else 
 		{
@@ -15,37 +19,6 @@ class Controller_Pages extends Controller_AdminTemplate
 	/*
 	 * Funkcja dodająca kategorie stron
 	 */
-	public function action_add_category()
-	{
-		if($this->_auth->logged_in('chef_editor'))
-		{
-			$category_list = ORM::factory('Categories')->find_all();
-			$list = $this->_prepare_list_array($category_list);
-			$this->template->content = View::factory( 'template/admin/pages/add_category');
-			$this->template->content->bind('category_list', $list['tree']);
-			if(isset($_POST['add_category']))
-			{
-				try
-				{
-					$category				= ORM::factory('Categories');
-					$category->parent_id 	= $this->request->post('parent_category');
-					$category->name			= $this->request->post('category_name');
-					$category->author		= $this->_auth->get_user()->pk();
-					$category->date_add		= date("Y-m-d H:i:s");
-					$category->change_date	= date("Y-m-d H:i:s");
-					$category->save();
-				}
-				catch(ORM_Validation_Exception $e)
-				{
-					$this->_set_message('error', $e->errors('avatar'));
-				}
-			}
-		}
-		else 
-		{
-			echo 'no access';	
-		}
-	}
 	public function _prepare_list_array($list)
 	{
 		$temp = array();

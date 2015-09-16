@@ -48,18 +48,62 @@
   				</div>
   				<div class="form-group">
    		 			<label for="page_category"><?php echo __('PAGE_CATEGORY');?></label>
-    				<input type="text" name="page_category" class="form-control" id="page_category" value="">
+    				<select class="form-control" name="parent_category" id="parent_category" hidden>
+    					<option value="0">--</option>
+    			<?php	
+    			print_r($category_list);
+    					function walkTree($nodes, $level = 0) 
+				{
+    				foreach($nodes as $key => $value) 
+    				{
+    					echo '<option value="'.$value['id'].'">'.str_repeat('--', $level).$value['name'].'</option>';
+        				if($value['children']) 
+        				{
+            				walkTree($value['children'], $level + 1); 
+        				}
+						
+    				}
+				}
+				walkTree($category_list);
+				?>
+  					</select>
   				</div>
     		</div>
    			<div class="col-sm-6">
-   				sfsdf
+   				<!-- Button trigger modal -->
+<button type="button" class="btn btn btn-default btn-lg" data-toggle="modal" data-target="#myModal">
+  Launch demo modal
+</button>
+
 			</div>
 			<div class="col-sm-12">
 				<div class="form-group">
-					<textarea class="page_value" name="page_value"></textarea>
+					<textarea class="page_value" id="page_value" name="page_value"></textarea>
 				</div>
 			</div>
 			<input type="submit" name="add_page" class="btn btn-default" value="<?php echo __('SAVE');?>">
 		</form>
     </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        <input type="text" id="test_test">
+        <input type="button" id="insert" value="insert">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
 </div>

@@ -193,6 +193,12 @@
         $('#delete_field').click(function(){
         	$('.field-files-container').children('div[class="form-group"]:last').remove()
         })
+        $('#insert').click(function(){
+        	var string = tinymce.get('page_value').getContent();
+        	string += '<img src="/public/upload/media/gallery/bergamotka-sala/20150825144924.jpg">';
+        	$(tinymce.get('page_value').getBody()).html(string);
+        })
+        alert('działa');
     });
 	</script>
 </html>
