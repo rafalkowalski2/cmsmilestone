@@ -9,6 +9,9 @@ class Model_Categories extends ORM {
     'date_add' => NULL,
     'change_date' => NULL,
     );
+	protected $_has_many = array( 
+		'pages' => array( 'model'   => 'Pages', 'far_key' => 'category_id', 'through' => 'pages_categories',),
+	);
 	public function rules()
 	{
 		return array(

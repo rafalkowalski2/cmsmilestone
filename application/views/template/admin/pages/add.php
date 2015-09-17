@@ -42,14 +42,22 @@
 		</div>
 		<form role="form" action="<?php echo Request::current()->uri();?>" method="post">
     		<div class="col-sm-6">
+    			<input type="hidden" name="page_id" id="page_id" value ="0"/>
     			<div class="form-group">
    		 			<label for="page_name"><?php echo __('PAGE_NAME');?></label>
     				<input type="text" name="page_name" class="form-control" id="page_name" value="">
   				</div>
   				<div class="form-group">
+   		 			<label for="meta_description"><?php echo __('META_DESCRIPTION');?></label>
+    				<input type="text" name="meta_description" class="form-control" id="meta_description" value="">
+  				</div>
+  				<div class="form-group">
+   		 			<label for="meta_keywords"><?php echo __('META_KEYWORDS');?></label>
+    				<input type="text" name="meta_keywords" class="form-control" id="meta_keywords" value="">
+  				</div>
+  				<div class="form-group">
    		 			<label for="page_category"><?php echo __('PAGE_CATEGORY');?></label>
     				<select class="form-control" name="parent_category" id="parent_category" hidden>
-    					<option value="0">--</option>
     			<?php	
     			print_r($category_list);
     					function walkTree($nodes, $level = 0) 
@@ -70,7 +78,31 @@
   				</div>
     		</div>
    			<div class="col-sm-6">
-   				<!-- Button trigger modal -->
+   				<div class="form-group">
+  					<label for="page_available"><?php echo __('PAGE_AVAILABLE');?></label>
+  					<select class="form-control" name="page_available" id="page_available">
+    					<option value="0"><?php echo __('NO');?></option>
+    					<option value="1"><?php echo __('YES');?></option>
+  					</select>
+				</div>
+   				<div class="form-group">
+  					<label for="active_off"><?php echo __('PAGE_AVAILABLE_OFF');?></label>
+					<div class=' input-group date' id='page_available_off'>
+               			<input type='text' class="form-control" name="page_available_off" id="page_available_off" value="<?php echo $_POST['active_off'];?>"/>
+                		<span class="input-group-addon">
+                  	  	<span class="glyphicon glyphicon-calendar"></span>
+                		</span>
+           			</div>
+  				</div>
+  				<div class="form-group">
+  					<label for="active_to"><?php echo __('PAGE_AVAILABLE_TO');?></label>
+					<div class=' input-group date' id='page_available_to'>
+               			<input type='text' class="form-control" name="page_available_to" id="page_available_to" value="<?php echo $_POST['active_to'];?>"/>
+                		<span class="input-group-addon">
+                  	  	<span class="glyphicon glyphicon-calendar"></span>
+                		</span>
+           			</div>
+  				</div>
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Large modal</button>
 
 			</div>
@@ -89,7 +121,7 @@
 <!-- Modal -->
 
 
-<div class="modal fade bs-example-modal-lg" style="z-index:9999999999999" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+<div class="modal fade bs-example-modal-lg" style="z-index:99999999" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
   <div class="modal-dialog modal-lg" style="width: 95% ">
     <<div class="modal-content">
       <div class="modal-header">
@@ -147,6 +179,20 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade bs-example-modal-sm" style="z-index:999999999" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+      	<input type="text" name="image" id="image" />
+        <input type="text" name="width" id="width" />
+        <button type="button" class="insert-image btn btn-default" data-dismiss="modal">INSERT</button>
       </div>
     </div>
   </div>

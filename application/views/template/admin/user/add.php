@@ -40,7 +40,7 @@
 			}
 			?>
 		</div>
-		<form role="form" method="post">
+		<form role="form" method="post" id="pages">
     		<div class="col-sm-6">
     			<div class="form-group">
    		 			<label for="name"><?php echo __('NAME');?></label>

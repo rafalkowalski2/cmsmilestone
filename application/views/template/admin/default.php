@@ -37,7 +37,7 @@
               <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo __('PAGES');?><span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="<?php echo URL::site(Request::current()->param('language').'/admin/pages/add'); ?>"><?php echo __('ADD_PAGE');?></a></li>
-                <li><a href="<?php echo URL::site(Request::current()->param('language').'/admin/user/list'); ?>"><?php echo __('LIST_PAGE');?></a></li>
+                <li><a href="<?php echo URL::site(Request::current()->param('language').'/admin/pages/list'); ?>"><?php echo __('LIST_PAGE');?></a></li>
               </ul></li>
              <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo __('FILEMANAGER');?><span class="caret"></span></a>
@@ -94,7 +94,8 @@
     	<div class="container-fluid marign-borders">
       		<div class="row">
       			<div class="col-sm-10">
-      				sgsgsfgsg
+      				<div class="autosave">
+      				</div>
       			</div>
       			<div class="col-sm-2">
       				<form role="form" action="<?php echo Request::current()->uri();?>" method="POST">
@@ -116,138 +117,10 @@
 	<script type="text/javascript" src="/public/static/template/admin/js/moment.min.js"></script>
 	<script type="text/javascript" src="/public/static/template/admin/js/bootstrap.js"></script>
 	<script type="text/javascript" src="/public/static/template/admin/js/bootstrap-datetimepicker.min.js"></script>
-	<script type="text/javascript" src="/public/static/template/admin/js/tinymce/tinymce.min.js"></script>
+	<script type="text/javascript" src="/public/static/template/admin/js/tinymce/tinymce.jquery.js"></script>
 	<script type="text/javascript" src="/public/static/template/admin/js/jquery.treegrid.js"></script>
 	<script type="text/javascript" src="/public/static/template/admin/js/jquery.treegrid.bootstrap3.js"></script>
 	<script type="text/javascript" src="/public/static/template/admin/js/jquery.cookie.js"></script>
 	<script type="text/javascript" src="/public/static/template/admin/js/lightbox.js"></script>
-	<script type="text/javascript">
-    $(document).ready(function () {
-        $('#active_off').datetimepicker({
-        	format: 'YYYY-MM-DD HH:mm:ss',
-        });
-        $('#active_to').datetimepicker({
-        	format: 'YYYY-MM-DD HH:mm:ss',
-        });
-        $("#active_off").on("dp.change", function (e) {
-            $('#active_to').data("DateTimePicker").minDate(e.date);
-        });
-        $("#active_to").on("dp.change", function (e) {
-            $('#active_off').data("DateTimePicker").maxDate(e.date);
-        });
-        tinymce.init({
-            selector: ".page_value",
-            theme: "modern",
-            language: "pl",
-            images_upload_url: "postAcceptor.php",
-   		 	images_upload_base_path: "/some/basepath",
-    		images_upload_credentials: true,
-    		relative_urls: false,
-    		plugins: [
-      			"advlist autolink lists link image charmap print preview hr anchor pagebreak",
-        		"searchreplace wordcount visualblocks visualchars code fullscreen",
-        		"insertdatetime media nonbreaking save table contextmenu directionality",
-        		"emoticons template paste textcolor colorpicker textpattern imagetools"
-    		],
-    		toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
-    		toolbar2: "print preview media | forecolor backcolor emoticons",
-        });
-        $('.test-tree').treegrid({
-        	'initialState': 'collapsed',
-         	'saveState': true,
-        	
-            expanderExpandedClass: 'glyphicon glyphicon-folder-open',
-        	expanderCollapsedClass: 'glyphicon glyphicon-folder-close',
-        });
-        $('#display_name').keyup(function() {
-        	var str = $('#display_name').val().toLowerCase();
-        	var replace = str.replace('ś', 's').
-        	replace('ć', 'c').
-        	replace('ó', 'o').
-        	replace('ż', 'z').
-        	replace('ź', 'z').
-        	replace('ę', 'e').
-        	replace('ą', 'a').
-        	replace('ł', 'l').
-        	replace('ń', 'n');
-        	
-        	$('#name').val(replace);
-        	
-        })
-        $('#form_add_folder').submit(function(){
-        	$('#name').removeAttr('disabled');
-        	$('#director').removeAttr('disabled');
-        })
-        $('#parent_folder').change(function(){
-        	if($('#parent_folder').val() != 0) 
-        	{
-        		$('#director').val($(this).find('option:selected').attr('data-value')+'/');
-        	}
-        	else
-        	{
-        		$('#director').val('public/upload/');
-        	}
-        })
-        $('#add_field').click(function(){
-        	$('.field-files-container').append('<div class="form-group"><input type="file" name="file[]" class="form-control" multiple="multiple" id="file"><div>');
-        })
-        $('#delete_field').click(function(){
-        	$('.field-files-container').children('div[class="form-group"]:last').remove()
-        })
-        /*$('#insert').click(function(){
-        	var string = tinymce.get('page_value').getContent();
-        	string += '<img src="http://192.168.0.17/public/upload/media/gallery/bergamotka-sala/20150825144924.jpg" width="300">';
-        	$(tinymce.get('page_value').getBody()).html(string);
-        })*/
-       	$('.folder-id').click(function()
-       	{
-       		$.ajax({
-				type     : "POST",
-    			url      : "/en/admin/files/ajax_get_files",
-    			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-				dataType: "JSON", 
-    			data     : {
-            			'folder_id' : $(this).attr('name')
-   	 			},
-   	 			beforeSend: function()
-            	{
-            		$('#results').html('<img src="/public/static/template/admin/images/loading_2.gif" />');
-            	},
-    			success : function(msg) {
-    				$('#results').html('');
-    				$.each(msg, function(index, items) {
-    					if(items.file_type.indexOf('image') >= 0)
-    					{
-    						$('#results').append('<div style="display:inline-block; margin-left: 5px; margin-top: 5px;"><div><img src="'+items.folder_director+'/'+items.file_name+'" width="150px" /></div><div><a class="add-to-textarea" name="'+items.folder_director+'/'+items.file_name+'">INSERT</a></div></div>');
-                   		}
-                   		else
-                   		{
-                   			$('#results').append('<div><a name="#">'+items.file_name+'</a>')
-                   		}
-                   		//$('#results').append('<p>'+items.folder_director+'/'+items.file_name+'</p>');
-                	});
-                	$('.add-to-textarea').click(function()
-       				{
-       					var string = tinymce.get('page_value').getContent();
-        				string += '<img src="http://'+window.location.host+'/'+$(this).attr('name')+'" width="300">';
-        				$(tinymce.get('page_value').getBody()).html(string);
-       				})
-        			//ten fragment wykona się po POMYŚLNYM zakończeniu połączenia
-        			//msg zawiera dane zwrócone z serwera
-    			},
-    			complete : function(r) {
-    				//alert('complete'+r);
-        			//ten fragment wykona się po ZAKONCZENIU połączenia
-        			//"r" to przykładowa nazwa zmiennej, która zawiera dane zwrócone z serwera
-    			},
-    			error:    function(error) {
-    				//alert('error'+error);
-        			//ten fragment wykona się w przypadku BŁĘDU
-    			}
-			});
-			//alert($(this).attr('name'));
-       	})
-        //alert('działa');
-    });
-	</script>
+	<script type="text/javascript" src="/public/static/template/admin/js/cmsmilestone.js"></script>
 </html>
