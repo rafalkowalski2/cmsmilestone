@@ -1,4 +1,4 @@
 <?php
 class Helpers_Categories {
-	static function 
+        static function _test(){}
 }

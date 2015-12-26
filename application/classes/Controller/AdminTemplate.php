@@ -47,7 +47,12 @@ class Controller_AdminTemplate extends Controller_Template
 		if($type == 'admin') HTTP::redirect( $this->request->param('language').'/admin/' , 302 ); //przekirownuj na login z admina
 		else HTTP::redirect( $this->request->param('language').'/page/user/login' , 302 );
 	}
-	public function  __construct(Request $request, Response $response) {
+        protected function _to_low_permissions($resource = NULL)
+        {
+            $res = base64_encode($resource);
+            HTTP::redirect($this->request->param('language').'/admin/errors/no_access?res='.$res);
+        }
+        public function  __construct(Request $request, Response $response) {
         parent::__construct($request, $response);
 		if(!isset($_COOKIE['cms_milestone_language']))
 		{
